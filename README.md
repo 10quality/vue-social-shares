@@ -13,6 +13,7 @@ Social network sharing component for [Vue Js](http://vuejs.org/).
     - [Props](#props)
     - [Custom binding](#custom-binding)
     - [Events](#event)
+- [Networks supported](#networks-supported)
 - [License](#license)
 
 ## Installation
@@ -140,6 +141,19 @@ new Vue({
     }, 
 });
 ```
+
+### Networks supported
+
+List of available networks to use in component:
+
+Network        | Child component or key
+-------------- | -----------------------
+Facebook       | `facebook`
+Twitter        | `twitter`
+Google +       | `googleplus`
+Pinterest      | `pinterest`
+Reddit         | `reddit`
+LinkedIn       | `linkedin`
 
 ## License
 
