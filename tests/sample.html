@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <body id="app">
+
+        <input type="text"
+            v-model="url"
+            placeholder="testing url"
+        />
+
+        <social-shares inline-template
+            :url="url"
+            twitter-user="10quality"
+            title="My share"
+            description="My description"
+        >
+            Share url on:
+            <ul>
+                <li>
+                    <facebook>Facebook</facebook>
+                </li>
+                <li>
+                    <twitter>Twitter</twitter>
+                </li>
+                <li>
+                    <googleplus>Google +</googleplus>
+                </li>
+                <li>
+                    <pinterest>Pinterest</pinterest>
+                </li>
+                <li>
+                    <reddit>Reddit</reddit>
+                </li>
+                <li>
+                    <linkedin>LinkedIn</linkedin>
+                </li>
+            </ul>
+        </social-shares>
+
+        <script src="../bower_components/vue/dist/vue.js" type="text/javascript"></script>
+        <script src="../dist/vue.social-shares.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            Vue.config.devtools = true;
+            var app = new Vue({
+                el: '#app',
+                data:
+                {
+                    url: undefined,
+                },
+            });
+        </script>
+    </body>
+</html>

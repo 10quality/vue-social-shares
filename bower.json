@@ -1,0 +1,32 @@
+{
+    "name": "vue-social-shares",
+    "description": "Social network sharing component for Vue JS.",
+    "main": [
+        "dist/vue.social-shares.js"
+    ],
+    "homepage": "https://github.com/10quality/vue-social-shares",
+    "license": "MIT",
+    "keywords": [
+        "vue",
+        "vuejs",
+        "social",
+        "share",
+        "facebook",
+        "twitter",
+        "google plus",
+        "linkedin",
+        "reddit"
+    ],
+    "authors": [
+        "Alejandro Mostajo <amostajo@gmail.com>",
+        "10Quality <info@10quality.com>"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/10quality/vue-social-shares.git"
+    },
+    "private": false,
+    "dependencies": {
+        "vue": "^1.0.24"
+    }
+}

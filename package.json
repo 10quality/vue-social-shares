@@ -1,0 +1,32 @@
+{
+  "name": "vue-social-shares",
+  "version": "1.0.0",
+  "description": "Social network sharing component for Vue JS.",
+  "main": "dist/vue.social-share.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/10quality/vue-social-shares.git"
+  },
+  "keywords": [
+    "vue",
+    "vuejs",
+    "social",
+    "share",
+    "facebook",
+    "twitter",
+    "google plus",
+    "linkedin",
+    "reddit"
+  ],
+  "author": "10Quality <info@10quality.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/10quality/vue-social-shares/issues"
+  },
+  "homepage": "https://github.com/10quality/vue-social-shares",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-copy": "^0.8.2",
+    "grunt-contrib-uglify": "^0.11.0"
+  }
+}
