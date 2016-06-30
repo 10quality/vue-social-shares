@@ -86,6 +86,7 @@ new Vue({
     el: '#app',
     data: {url:undefined}, 
 });
+```
 
 ### Custom binding
 
