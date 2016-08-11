@@ -33,8 +33,15 @@
                 <li>
                     <linkedin>LinkedIn</linkedin>
                 </li>
+                <li>
+                    <whatsapp>Whatsapp</whatsapp>
+                </li>
             </ul>
         </social-shares>
+
+        <div style="margin-top:10px;background-color:#DDD;padding:10px;" v-show="alert.isActive">
+            {{{alert.message}}}
+        </div>
 
         <script src="../bower_components/vue/dist/vue.js" type="text/javascript"></script>
         <script src="../dist/vue.social-shares.min.js" type="text/javascript"></script>
@@ -45,6 +52,32 @@
                 data:
                 {
                     url: undefined,
+                    alert:
+                    {
+                        isActive: false,
+                        message: undefined,
+                    },
+                },
+                methods:
+                {
+                    showAlert: function(message)
+                    {
+                        this.$set('alert.isActive', true);
+                        this.$set('alert.message', message);
+                    },
+                    hideAlert: function()
+                    {
+                        this.$set('alert.isActive', false);
+                        this.$set('alert.message', undefined);
+                    },
+                },
+                events:
+                {
+                    'social_shares_click': function(network, url)
+                    {
+                        this.showAlert('Sharer activated for <strong>'+network+'</strong>.');
+                        setTimeout(this.hideAlert, 3500);
+                    },
                 },
             });
         </script>

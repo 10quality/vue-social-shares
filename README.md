@@ -43,6 +43,9 @@ Add the component in your vue view.
         <facebook>
             Share in facebook
         </facebook>
+        <whatsapp>
+            Share in whatsapp
+        </whatsapp>
     </social-shares>
 
 </body>
@@ -154,6 +157,7 @@ Google +       | `googleplus`
 Pinterest      | `pinterest`
 Reddit         | `reddit`
 LinkedIn       | `linkedin`
+Whatsapp       | `whatsapp` (mobile only)
 
 ## License
 

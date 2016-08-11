@@ -5,20 +5,51 @@
  * @author Alejandro Mostajo <http://about.me/amostajo>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @version 1.0.0
+ * @version 1.0.1
  */
 'use strict';
 
 /**
  * Inner component mixin.
  * @since 1.0.0
+ * @since 1.0.1 Added different mixin options.
  * @var object
  */
-var _sr_mixin = { template: '<a href="#share-{{network}}" @click.prevent="$parent.share(network)"><slot></slot></a>',};
+var _sr_mixins = {
+    /**
+     * Mixin for popup like sharers.
+     * @since 1.0.0
+     */
+    popup: { template: '<a href="#share-{{network}}" @click.prevent="$parent.share(network)"><slot></slot></a>' },
+    /**
+     * Mixin for direct link sharers.
+     * @since 1.0.1
+     */
+    direct: {
+        template: '<a :href="$parent._getSharer(network)" data-action="{{attributes(\'data-action\')}}" @click="$parent.touch(network)"><slot></slot></a>',
+        methods:
+        {
+            /**
+             * Returns attribute value by key.
+             * @since 1.0.1
+             *
+             * @param string key Attribute key.
+             *
+             * @return string
+             */
+            attributes: function(key)
+            {
+                return this.attr !== undefined && this.attr[key] !== undefined
+                    ? this.attr[key]
+                    : undefined;
+            },
+        }
+    },
+};
 
 /**
  * Component.
- * @since 1.0.0
+ * @since 1.0.1
  */
 Vue.component('social-shares', Vue.extend({
     props:
@@ -91,6 +122,7 @@ Vue.component('social-shares', Vue.extend({
             /**
              * Available sharing networks.
              * @since 1.0.0
+             * @since 1.0.1 Added whatsapp
              * @param object
              */
             networks:
@@ -121,6 +153,10 @@ Vue.component('social-shares', Vue.extend({
                 {
                     sharer: 'https://www.linkedin.com/shareArticle?mini=true&url=@url&title=@title&summary=@description',
                 },
+                whatsapp:
+                {
+                    sharer: 'whatsapp://send?text=@url',
+                },
             },
             /**
              * Popup settings.
@@ -142,35 +178,44 @@ Vue.component('social-shares', Vue.extend({
                 left: 0,
                 window: undefined,
             },
-            /**
-             * Mixin to apply to child components.
-             * @since 1.0.0
-             * @var object
-             */
-            childMixin:
-            {
-                template: '<a href="#share-{{network}}" @click.prevent="$parent.share(network)"><slot></slot></a>',
-            },
         };
     },
     methods:
     {
         /**
+         * Returns generated sharer url. 
+         * @since 1.0.1
+         *
+         * @param string network Social network key.
+         */
+        _getSharer: function(network)
+        {
+            return this.networks[network].sharer.replace(/\@url/g, this.url)
+                .replace(/\@title/g, this.title)
+                .replace(/\@description/g, this.description)
+                .replace(/\@twitteruser/g, this.twitterUser);
+        },
+        /**
          * Shares URL in specified network.
          * @since 1.0.0
+         * @since 1.0.1 _getSharer used.
          *
          * @param string network Social network key.
          */
         share: function(network)
         {
-            if (this.url !== undefined) {
-                this._openSharer(
-                    this.networks[network].sharer.replace(/\@url/g, this.url)
-                        .replace(/\@title/g, this.title)
-                        .replace(/\@description/g, this.description)
-                        .replace(/\@twitteruser/g, this.twitterUser)
-                );
-            }
+            if (this.url !== undefined)
+                this._openSharer(this._getSharer(network));
+            this.$dispatch('social_shares_click', network, this.url);
+        },
+        /**
+         * Touches network and dispatches click event.
+         * @since 1.0.1
+         *
+         * @param string network Social network key.
+         */
+        touch: function(network)
+        {
             this.$dispatch('social_shares_click', network, this.url);
         },
         /**
@@ -217,32 +262,38 @@ Vue.component('social-shares', Vue.extend({
     },
     /**
      * Set component aliases for buttons and links.
+     * @since 1.0.0
+     * @since 1.0.1 Added whatsapp.
      */
     components:
     {
         'facebook': Vue.extend({
-            mixins: [_sr_mixin],
+            mixins: [_sr_mixins.popup],
             data: function() { return {network: 'facebook'} },
         }),
         'twitter': Vue.extend({
-            mixins: [_sr_mixin],
+            mixins: [_sr_mixins.popup],
             data: function() { return {network: 'twitter'} },
         }),
         'googleplus': Vue.extend({
-            mixins: [_sr_mixin],
+            mixins: [_sr_mixins.popup],
             data: function() { return {network: 'googleplus'} },
         }),
         'pinterest': Vue.extend({
-            mixins: [_sr_mixin],
+            mixins: [_sr_mixins.popup],
             data: function() { return {network: 'pinterest'} },
         }),
         'reddit': Vue.extend({
-            mixins: [_sr_mixin],
+            mixins: [_sr_mixins.popup],
             data: function() { return {network: 'reddit'} },
         }),
         'linkedin': Vue.extend({
-            mixins: [_sr_mixin],
+            mixins: [_sr_mixins.popup],
             data: function() { return {network: 'linkedin'} },
+        }),
+        'whatsapp': Vue.extend({
+            mixins: [_sr_mixins.direct],
+            data: function() { return {network: 'whatsapp', attr: {'data-action': 'share/whatsapp/share'}} },
         }),
     },
 }));
@@ -250,5 +301,6 @@ Vue.component('social-shares', Vue.extend({
 /**
  * Unset mixin.
  * @since 1.0.0
+ * @since 1.0.1 Refactored to _sr_mixins.
  */
-_sr_mixin = undefined;
+_sr_mixins = undefined;
